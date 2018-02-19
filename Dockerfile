@@ -31,6 +31,7 @@ RUN ln -s ${TARGET_EXE} /usr/bin/$(basename ${TARGET_EXE}) && \
 ############################# 
 #### ---- Install Sublime ----
 ############################# 
+
 WORKDIR ${INSTALL_DIR}
 
 ARG SUBLIME_URL=${SUBLIME_URL:-https://download.sublimetext.com/sublime_text_3_build_3143_x64.tar.bz2}
@@ -47,18 +48,18 @@ RUN ln -s ${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text /usr/bin/sublime_text && \
     
 COPY editors/blog-for-sublime blog-for-sublime
 
-RUN cd blog-for-sublime && ./install.sh && \
-    chown -R developer:developer ${HOME}/.config
+RUN blog-for-sublime/install.sh && \
+    /bin/chown -R developer:developer ${HOME}/.config
 
 ############################# 
 #### ---- Workspace setup ----
 ############################# 
+USER "developer"
+
 VOLUME "/data"
 VOLUME "/workspace"
 
 WORKDIR /workspace
-
-USER "developer"
 
 ENV TARGET_EXE=${TARGET_EXE}
 
