@@ -23,3 +23,9 @@ support whatever you want to do.
 ## Compile BLOG programming 
 - Select DropDown menu "Tools" --> "Build" (it will automatic invoke BLOG interpreter and 
 display results in Conlse windows below the Sublime_Text GUI Editor.
+
+## Command line BLOG try "burglary.blog"
+- You can try run the "butglary.blog" 
+```
+./try-burglary.sh
+```
