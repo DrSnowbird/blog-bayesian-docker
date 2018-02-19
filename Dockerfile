@@ -47,8 +47,8 @@ RUN ln -s ${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text /usr/bin/sublime_text && \
     mkdir -p ${HOME}/.config/sublime-text-3/Packages/User/ 
     
 COPY editors/blog-for-sublime blog-for-sublime
-
-RUN blog-for-sublime/install.sh 
+COPY editors/blog-for-sublime/blog.* ${HOME}/.config/sublime-text-3/Packages/User/
+#RUN blog-for-sublime/install.sh 
 
 RUN /bin/chown -R developer:developer ${HOME}/.config
 
