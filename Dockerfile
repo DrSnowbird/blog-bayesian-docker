@@ -48,8 +48,9 @@ RUN ln -s ${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text /usr/bin/sublime_text && \
     
 COPY editors/blog-for-sublime blog-for-sublime
 
-RUN blog-for-sublime/install.sh && \
-    /bin/chown -R developer:developer ${HOME}/.config
+RUN blog-for-sublime/install.sh 
+
+RUN /bin/chown -R developer:developer ${HOME}/.config
 
 ############################# 
 #### ---- Workspace setup ----
