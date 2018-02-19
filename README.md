@@ -14,9 +14,12 @@ support whatever you want to do.
 ./build.sh
 ```
 
-## Run
-- To run the simple example build image; it will pop up X11 to display Firefox docker-based browser.
+## Run (Editor with Sublime_Text3)
+- To run the simple example build image; it will pop up Sublime_Text(v3) GUI Editor with default "burglary.blog".
 ```
 ./run.sh
 ```
 
+## Compile BLOG programming 
+- Select DropDown menu "Tools" --> "Build" (it will automatic invoke BLOG interpreter and 
+display results in Conlse windows below the Sublime_Text GUI Editor.
