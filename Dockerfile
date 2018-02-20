@@ -44,21 +44,23 @@ RUN wget -c ${SUBLIME_URL} && \
     
 RUN ln -s ${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text /usr/bin/sublime_text && \
     ls -al ${TARGET_HOME} && \
-    mkdir -p ${HOME}/.config/sublime-text-3/Packages/User/ 
-    
-COPY editors/blog-for-sublime blog-for-sublime
-COPY editors/blog-for-sublime/blog.* ${HOME}/.config/sublime-text-3/Packages/User/
-#RUN blog-for-sublime/install.sh 
+    mkdir -p ${HOME}/.config/sublime-text-3/Packages/User ${HOME}/data ${HOME}/workspace && \
+    ls -al ${HOME}/.config
 
-RUN /bin/chown -R developer:developer ${HOME}/.config
+COPY editors/blog-for-sublime/blog* ${HOME}/.config/sublime-text-3/Packages/User/
+RUN /bin/chown -R ${USER_ID}:${USER_ID} ${HOME}/.config ${HOME}/data ${HOME}/workspace && \
+    ls -al ${HOME}/.config/sublime-text-3/Packages/User/ && \
+    find ${HOME}/.config 
+
 
 ############################# 
 #### ---- Workspace setup ----
 ############################# 
-#USER "developer"
+USER "developer"
 
-VOLUME "/data"
-VOLUME "/workspace"
+VOLUME "${HOME}/data"
+VOLUME "${HOME}/workspace"
+VOLUME "${HOME}/.config"
 
 WORKDIR /workspace
 

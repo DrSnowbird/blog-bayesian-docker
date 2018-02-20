@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 if [ $# -lt 1 ]; then
     echo "Usage: "
@@ -57,6 +57,11 @@ PACKAGE="${imageTag##*/}"
 LOCAL_VOLUME_DIR="${baseDataFolder}/${PACKAGE}"
 ## -- Container's internal Volume base DIR
 DOCKER_VOLUME_DIR="/home/developer"
+
+
+#### REMOVE this before check in ---------------------------------
+#rm -rf ${LOCAL_VOLUME_DIR}
+
 
 ###################################################
 #### ---- Function: Generate volume mappings  ----
