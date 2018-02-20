@@ -1,7 +1,7 @@
 # Docker for Bayesian Logic Programming (BLOG)
 
 ## Purpose
-To provide the common files for building, running a docker project
+To provide Docker for Bayesian Logic Programming (BLOG)
 
 ## Resources
 1. BLOG Programming [https://bayesianlogic.github.io/pages/download.html] 
