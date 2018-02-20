@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 if [ $# -lt 1 ]; then
     echo "Usage: "
@@ -140,6 +140,11 @@ echo ${privilegedString}
 ###################################################
 #### ---- Mostly, you don't need change below ----
 ###################################################
+function cleanup() {
+    if [ ! "`docker ps -a|grep ${instanceName}`" == "" ]; then
+         docker rm -f ${instanceName}
+    fi
+}
 
 #instanceName=my-${1:-${imageTag%/*}}_$RANDOM
 #instanceName=my-${1:-${imageTag##*/}}
@@ -151,10 +156,7 @@ echo "---------------------------------------------"
 echo "---- Starting a Container for ${imageTag}"
 echo "---------------------------------------------"
 
-
-docker rm -f ${instanceName}
-
-#     --restart=always \
+cleanup
 
 echo ${DISPLAY}
 xhost +SI:localuser:$(id -un) 
@@ -167,4 +169,5 @@ docker run -it \
     ${PORT_MAP} \
     ${imageTag}
 
-docker rm -f ${instanceName}
+cleanup
+

@@ -55,7 +55,7 @@ RUN /bin/chown -R developer:developer ${HOME}/.config
 ############################# 
 #### ---- Workspace setup ----
 ############################# 
-USER "developer"
+#USER "developer"
 
 VOLUME "/data"
 VOLUME "/workspace"
