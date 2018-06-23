@@ -1,15 +1,12 @@
 FROM openkbs/jdk-mvn-py3-x11
-#FROM openkbs/atom-java-mvn-python3
 
 MAINTAINER DrSnowbird "DrSnowbird@openkbs.org"
 
 ARG INSTALL_DIR=${INSTALL_DIR:-/opt}
 
 ARG TARGET_VER=${TARGET_VER:-0.10}
-
 ARG TARGET_TGZ=${TARGET_TGZ:-blog-${TARGET_VER}.zip}
 ARG TARGET_URL=${TARGET_URL:-https://bayesianlogic.github.io/download/${TARGET_TGZ}}
-
 ARG TARGET_HOME=${TARGET_HOME:-${INSTALL_DIR}/blog-${TARGET_VER}}
 ENV TARGET_HOME=${TARGET_HOME}
 
@@ -34,15 +31,25 @@ RUN ln -s ${TARGET_EXE} /usr/bin/$(basename ${TARGET_EXE}) && \
 
 WORKDIR ${INSTALL_DIR}
 
-ARG SUBLIME_URL=${SUBLIME_URL:-https://download.sublimetext.com/sublime_text_3_build_3143_x64.tar.bz2}
-ARG SUBLIME_VER=${SUBLIME_VER:-build_3143_x64}
-ARG SUBLIME_DIR=${SUBLIME_DIR:-sublime_text_3}
+# https://download.sublimetext.com/sublime_text_3_build_3176_x64.tar.bz2
+ARG SUBLIME_VER=${SUBLIME_VER:-3176}
+ARG SUBLIME_TGZ=${SUBLIME_TGZ:-sublime_text_3_build_${SUBLIME_VER}_x64.tar.bz2}
+ARG SUBLIME_URL=${SUBLIME_URL:-https://download.sublimetext.com/${SUBLIME_TGZ}}
 
-RUN wget -c ${SUBLIME_URL} && \
-    tar -vxjf ${SUBLIME_DIR}_${SUBLIME_VER}.tar.bz2 && \
-    rm ${SUBLIME_DIR}_${SUBLIME_VER}.tar.bz2
+ARG SUBLIME_DIR=${SUBLIME_DIR:-sublime_text_3}
+ENV SUBLIME_DIR=${SUBLIME_DIR}
+
+ARG SUBLIME_EXE=${SUBLIME_EXE:-${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text}
+ENV SUBLIME_EXE=${SUBLIME_EXE}
+
+RUN \
+    apt-get update -y && \
+    apt-get install gtk+3.0 -y && \
+    wget -c ${SUBLIME_URL} && \
+    tar -vxjf ${SUBLIME_TGZ} && \
+    rm ${SUBLIME_TGZ}
     
-RUN ln -s ${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text /usr/bin/sublime_text && \
+RUN ls -al ${INSTALL_DIR}/${SUBLIME_DIR} && \
     ls -al ${TARGET_HOME} && \
     mkdir -p ${HOME}/.config/sublime-text-3/Packages/User ${HOME}/data ${HOME}/workspace && \
     ls -al ${HOME}/.config
@@ -51,7 +58,6 @@ COPY editors/blog-for-sublime/blog* ${HOME}/.config/sublime-text-3/Packages/User
 RUN /bin/chown -R ${USER_ID}:${USER_ID} ${HOME}/.config ${HOME}/data ${HOME}/workspace && \
     ls -al ${HOME}/.config/sublime-text-3/Packages/User/ && \
     find ${HOME}/.config 
-
 
 ############################# 
 #### ---- Workspace setup ----
@@ -64,9 +70,7 @@ VOLUME "${HOME}/.config"
 
 WORKDIR /workspace
 
-ENV TARGET_EXE=${TARGET_EXE}
-
 #ENTRYPOINT "${TARGET_EXE}" "${TARGET_HOME}/example/burglary.blog"
 
 #RUN echo $HOME
-CMD "/usr/bin/sublime_text" "${TARGET_HOME}/example/burglary.blog"
+CMD "${SUBLIME_EXE}" "${TARGET_HOME}/example/burglary.blog"
