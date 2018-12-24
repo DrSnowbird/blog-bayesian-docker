@@ -162,7 +162,7 @@ echo "---------------------------------------------"
 echo "---- Starting a Container for ${imageTag}"
 echo "---------------------------------------------"
 
-docker rm -f ${instanceName}
+#docker rm -f ${instanceName}
 
 echo ${DISPLAY}
 xhost +SI:localuser:$(id -un) 
@@ -177,4 +177,4 @@ docker run -it \
     ${imageTag} "/bin/bash" "-C" "/usr/blog-0.10/bin/blog" ${BLOG_ARGS}
 #    ${imageTag} "/bin/bash" "-C" "/usr/blog-0.10/bin/blog" "/usr/blog-0.10/example/burglary.blog"
     
-docker rm -f ${instanceName}
+#docker rm -f ${instanceName}
