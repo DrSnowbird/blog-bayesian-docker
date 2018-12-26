@@ -17,13 +17,12 @@ ARG TARGET_EXE=${TARGET_HOME}/bin/blog
 ############################# 
 WORKDIR ${INSTALL_DIR}
 
-RUN wget -c ${TARGET_URL} && \
-    unzip ${TARGET_TGZ} && \
-    rm ${TARGET_TGZ}
+RUN sudo wget -c ${TARGET_URL} && \
+    sudo unzip ${TARGET_TGZ} && \
+    sudo rm ${TARGET_TGZ}
     
-RUN ln -s ${TARGET_EXE} /usr/bin/$(basename ${TARGET_EXE}) && \
-    ls -al ${TARGET_HOME} && \
-    mkdir -p /workspace
+RUN sudo ln -s ${TARGET_EXE} /usr/bin/$(basename ${TARGET_EXE}) && \
+    ls -al ${TARGET_HOME} 
     
 ############################# 
 #### ---- Install Sublime ----
@@ -43,32 +42,32 @@ ARG SUBLIME_EXE=${SUBLIME_EXE:-${INSTALL_DIR}/${SUBLIME_DIR}/sublime_text}
 ENV SUBLIME_EXE=${SUBLIME_EXE}
 
 RUN \
-    apt-get update -y && \
-    apt-get install gtk+3.0 -y && \
-    wget -c ${SUBLIME_URL} && \
-    tar -vxjf ${SUBLIME_TGZ} && \
-    rm ${SUBLIME_TGZ}
-    
+    sudo apt-get update -y && \
+    sudo apt-get install gtk+3.0 -y && \
+    sudo wget -c ${SUBLIME_URL} && \
+    sudo tar -vxjf ${SUBLIME_TGZ} && \
+    sudo rm ${SUBLIME_TGZ}
+
 RUN ls -al ${INSTALL_DIR}/${SUBLIME_DIR} && \
     ls -al ${TARGET_HOME} && \
     mkdir -p ${HOME}/.config/sublime-text-3/Packages/User ${HOME}/data ${HOME}/workspace && \
     ls -al ${HOME}/.config
 
 COPY editors/blog-for-sublime/blog* ${HOME}/.config/sublime-text-3/Packages/User/
-RUN /bin/chown -R ${USER_ID}:${USER_ID} ${HOME}/.config ${HOME}/data ${HOME}/workspace && \
+RUN sudo /bin/chown -R ${USER_ID}:${USER_ID} ${HOME}/.config ${HOME}/data ${HOME}/workspace && \
     ls -al ${HOME}/.config/sublime-text-3/Packages/User/ && \
     find ${HOME}/.config 
 
 ############################# 
 #### ---- Workspace setup ----
 ############################# 
-USER "developer"
+USER "${USER_NAME}"
 
 VOLUME "${HOME}/data"
 VOLUME "${HOME}/workspace"
 VOLUME "${HOME}/.config"
 
-WORKDIR /workspace
+WORKDIR ${HOME}/workspace
 
 #ENTRYPOINT "${TARGET_EXE}" "${TARGET_HOME}/example/burglary.blog"
 
