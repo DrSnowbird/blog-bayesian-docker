@@ -10,9 +10,9 @@ function cleanup() {
 
 cleanup
 
-dblog='docker run -it --rm --name ${instanceName} -v '$PWD'/blog-0.10/example:/example openkbs/docker-blog-bayesian blog'
+dblog="docker run -it --rm --name ${instanceName} -v $PWD/example:/home/developer/example openkbs/blog-bayesian-docker blog"
 
-$dblog /example/burglary.blog
+$dblog /home/developer/example/burglary.blog
 
 cleanup
 

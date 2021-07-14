@@ -1,15 +1,15 @@
 version: '3' 
 services:
-  docker-blog-bayesian:
-    image: openkbs/docker-blog-bayesian
+  blog-bayesian-docker:
+    image: openkbs/blog-bayesian-docker
     build:
       context: ./Dockerfile
-    container_name: docker-blog-bayesian
+    container_name: blog-bayesian-docker
     environment:
       - USER_ID=${USER_ID:-1000}
       - GROUP_ID=${GROUP_ID:-1000}
     env_file:
-      - ./docker.env
+      - ./.env
 #    ports:
 #      - 8080:8080
     volumes:
